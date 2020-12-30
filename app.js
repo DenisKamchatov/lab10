@@ -1,145 +1,448 @@
 let canv = document.getElementById('canvas')
 let ctx = canv.getContext('2d') 
+
+const buttonNewRound = document.querySelector('#buttonLeft')
+const buttonReset = document.querySelector('#buttonRight')
+let firstPlayerWins = document.querySelector('#firstPlayer')
+let secondPlayerWins = document.querySelector('#secondPlayer')
+let motion = document.querySelector('#motion')
+
 let board = [
-    ['', '', ''],
-    ['', '', ''],
-    ['', '', '']
+    ['S', 'S', 'F'],
+    ['S', 'B', 'S'],
+    ['B', 'F', 'F']
 ]
 
-canvWidth = window.innerWidth
-canvHeight = window.innerHeight
+function canvasCascade() {
+  // VerticalLine
+  ctx.fillStyle = "black"
+  ctx.fillRect(139, 0, 3, 420)
+  ctx.fillStyle = "black"
+  ctx.fillRect(279, 0, 3, 420)
+  // HorizontalLine
+  ctx.fillStyle = "black"
+  ctx.fillRect(0, 139, 420, 3)
+  ctx.fillStyle = "black"
+  ctx.fillRect(0, 279, 420, 3)
+}
+canvasCascade()
+
+canv.addEventListener('click', canvasClick)
+let clientX = 0
+let clientY = 0
+
+let player1 = 0
+let player2 = 0
+
+let gameStopper = false
+let currentPlayer = 0
+let winner = 'first' 
+
+const playerFirstName = prompt('Введите имя первого игрока: ')
+const playerSecondName = prompt('Введите имя второго игрока: ')
+
+motion.textContent = `Ходит первый игрок - ${playerFirstName}`
+
+function canvasClick(click) {
+    clientX = click.offsetX;
+    clientY = click.offsetY;
+
+    if (gameStopper == false) {
+      if (clientX < 139 && clientY < 139 && board[0][0] != 'X' && board[0][0] != 'O') {
+        if (currentPlayer % 2 == 0) {
+          printTopLeftX()
+          board[0][0] = 'X'
+        } else {
+          printTopLeftO()
+          board[0][0] = 'O'
+        }
+        currentPlayer += 1
+      }else if (clientX < 279 && clientY < 139 && clientX > 140 && clientY > 0 && board[0][1] != 'X' && board[0][1] != 'O') {
+        if (currentPlayer % 2 == 0) {
+          printTopCenterX()
+          board[0][1] = 'X'
+        } else {
+          printTopCenterO()
+          board[0][1] = 'O'
+        }
+        currentPlayer += 1
+      }else if (clientX < 420 && clientY < 139 && clientX > 280 && clientY > 0 && board[0][2] != 'X' && board[0][2] != 'O') {
+        if (currentPlayer % 2 == 0) {
+          printTopRightX()
+          board[0][2] = 'X'
+        } else {
+          printTopRightO()
+          board[0][2] = 'O'
+        }
+        currentPlayer += 1
+      }else if (clientX < 139 && clientY < 279 && clientX > 0 && clientY > 140 && board[1][0] != 'X' && board[1][0] != 'O') {
+        if (currentPlayer % 2 == 0) {
+          printCenterLeftX()
+          board[1][0] = 'X'
+        } else {
+          printCenterLeftO()
+          board[1][0] = 'O'
+        }
+        currentPlayer += 1
+      }else if (clientX < 279 && clientY < 279 && clientX > 140 && clientY > 140 && board[1][1] != 'X' && board[1][1] != 'O') {
+        if (currentPlayer % 2 == 0) {
+          printCenterCenterX()
+          board[1][1] = 'X'
+        } else {
+          printCenterCenterO()
+          board[1][1] = 'O'
+        }
+        currentPlayer += 1
+      }else if (clientX < 420 && clientY < 279 && clientX > 280 && clientY > 140 && board[1][2] != 'X' && board[1][2] != 'O') {
+        if (currentPlayer % 2 == 0) {
+          printCenterRightX()
+          board[1][2] = 'X'
+        } else {
+          printCenterRightO()
+          board[1][2] = 'O'
+        }
+        currentPlayer += 1
+      }else if (clientX < 139 && clientY < 420 && clientX > 0 && clientY > 280 && board[2][0] != 'X' && board[2][0] != 'O') {
+        if (currentPlayer % 2 == 0) {
+          printBottomLeftX()
+          board[2][0] = 'X'
+        } else {
+          printBottomLeftO()
+          board[2][0] = 'O'
+        }
+        currentPlayer += 1
+      }else if (clientX < 279 && clientY < 420 && clientX > 140 && clientY > 280 && board[2][1] != 'X' && board[2][1] != 'O') {
+        if (currentPlayer % 2 == 0) {
+          printBottomCenterX()
+          board[2][1] = 'X'
+        } else {
+          printBottomCenterO()
+          board[2][1] = 'O'
+        }
+        currentPlayer += 1
+      }else if (clientX < 420 && clientY < 420 && clientX > 280 && clientY > 280 && board[2][2] != 'X' && board[2][2] != 'O') {
+        if (currentPlayer % 2 == 0) {
+          printBottomRightX()
+          board[2][2] = 'X'
+        } else {
+          printBottomRightO()
+          board[2][2] = 'O'
+        }
+        currentPlayer += 1
+      }else {
+        alert('Это поле уже занято, выберите путое поле!')
+      }
+      ifWin()
+    }
+}
+// If Win
+function ifWin() {
+  // Diagonal First
+  if (board[0][0] == board[1][1] && board[1][1] == board[2][2]) { 
+    if (board[0][0] == 'X') {
+      if (winner == 'first') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      }
+      gameStopper = true
+    }else if (board[0][0] == 'O') {
+      if (winner == 'first') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      }
+      gameStopper = true
+    }
+  // Horizontal First
+  }else if (board[0][0] == board[0][1] && board[0][2] == board[0][1]) {
+    if (board[0][0] == 'X') {
+      gameStopper = true
+      player1 += 1
+      firstPlayerWinsFunc()
+    } else if (board[0][0] == 'O') {
+      gameStopper = true
+      player2 += 1
+      secondPlayerWinsFunc()
+    }
+  // Horizontal Second
+  }else if (board[1][0] == board[1][1] && board[1][2] == board[1][1]) {
+    if (board[1][0] == 'X') {
+      gameStopper = true
+      player1 += 1
+      firstPlayerWinsFunc()
+    } else if (board[1][0] == 'O') {
+      gameStopper = true
+      player2 += 1
+      secondPlayerWinsFunc()
+    }
+  // Horizontal Third
+  }else if (board[2][0] == board[2][1] && board[2][2] == board[2][1]) {
+    if (board[2][0] == 'X') {
+      gameStopper = true
+      player1 += 1
+      firstPlayerWinsFunc()
+    } else if (board[2][0] == 'O') {
+      gameStopper = true
+      player2 += 1
+      secondPlayerWinsFunc()
+    }
+  // Diagonal Second
+  }else if (board[0][2] == board[1][1] && board[2][0] == board[1][1]) {
+    if (board[0][2] == 'X') {
+      gameStopper = true
+      player1 += 1
+      firstPlayerWinsFunc()
+    } else if (board[0][2] == 'O') {
+      gameStopper = true
+      player2 += 1
+      secondPlayerWinsFunc()
+    }
+  // Vertical First
+  }else if (board[0][0] == board[1][0] && board[2][0] == board[1][0]) {
+    if (board[0][0] == 'X') {
+      gameStopper = true
+      player1 += 1
+      firstPlayerWinsFunc()
+    } else if (board[0][0] == 'O') {
+      gameStopper = true
+      player2 += 1
+      secondPlayerWinsFunc()
+    }
+  // Vertical Second
+  }else if (board[0][1] == board[1][1] && board[2][1] == board[1][1]) {
+    if (board[0][1] == 'X') {
+      gameStopper = true
+      player1 += 1
+      firstPlayerWinsFunc()
+    } else if (board[0][1] == 'O') {
+      gameStopper = true
+      player2 += 1
+      secondPlayerWinsFunc()
+    }
+  // Vertical Third
+  }else if (board[0][2] == board[1][2] && board[2][2] == board[1][2]) {
+    if (board[0][2] == 'X') {
+      gameStopper = true
+      player1 += 1
+      firstPlayerWinsFunc()
+    } else if (board[0][2] == 'O') {
+      gameStopper = true
+      player2 += 1
+      secondPlayerWinsFunc()
+    }
+  }
+}
+
+// FirstPlayerWins
+function firstPlayerWinsFunc() {
+  winner = 'first'
+  firstPlayerWins.textContent = `Первый игрок: ${player1}`
+  motion.textContent = `Ходит первый игрок - ${playerFirstName}`
+  alert('Первый игрок выиграл, поздравляю! Нажмите кнопку "Новый раунд", чтобы начать новый раунд.')
+}
+// SecondPlayerWins
+function secondPlayerWinsFunc() {
+  winner = 'second'
+  secondPlayerWins.textContent = `Второй игрок: ${player2}`
+  motion.textContent = `Ходит второй игрок - ${playerSecondName}`
+  alert('Второй игрок выиграл, поздравляю! Нажмите кнопку "Новый раунд", чтобы начать новый раунд.')
+}
+
+// Button New Round
+buttonNewRound.addEventListener('click', () => {
+  ctx.clearRect(0, 0, 420, 420)
+  canvasCascade()
+  board = [
+    ['S', 'S', 'F'],
+    ['S', 'B', 'S'],
+    ['B', 'F', 'F']
+  ]
+  currentPlayer = 0
+  gameStopper = false
+}) 
+// Button Reset
+buttonReset.addEventListener('click', () => {
+  ctx.clearRect(0, 0, 420, 420)
+  canvasCascade()
+  board = [
+    ['S', 'S', 'F'],
+    ['S', 'B', 'S'],
+    ['B', 'F', 'F']
+  ]
+  currentPlayer = 0
+  gameStopper = false
+  player1 = 0
+  player2 = 0
+  firstPlayerWins.textContent = `Первый игрок: ${player1}`
+  secondPlayerWins.textContent = `Второй игрок: ${player2}`
+})
 
 
-// VerticalLine
-ctx.fillStyle = "black"
-ctx.fillRect(164, 0, 2, 500)
-ctx.fillStyle = "black"
-ctx.fillRect(334, 0, 2, 500)
 
-// HorizontalLine
-ctx.fillStyle = "black"
-ctx.fillRect(0, 165, 500, 2)
-ctx.fillStyle = "black"
-ctx.fillRect(0, 330, 500, 2)
+// X FUNCTIONS
+// Top
+function printTopLeftX() {
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(20, 20)
+  ctx.lineTo(120, 120)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(120, 20)
+  ctx.lineTo(20, 120)
+  ctx.stroke()
+}
+function printTopCenterX() {
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(160, 20)
+  ctx.lineTo(260, 120)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(260, 20)
+  ctx.lineTo(160, 120)
+  ctx.stroke()
+}
+function printTopRightX() {
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(300, 20)
+  ctx.lineTo(400, 120)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(400, 20)
+  ctx.lineTo(300, 120)
+  ctx.stroke()
+}
+// Center
+function printCenterLeftX() {
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(20, 160)
+  ctx.lineTo(120, 260)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(120, 160)
+  ctx.lineTo(20, 260)
+  ctx.stroke()
+}
+function printCenterCenterX() {
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(160, 160)
+  ctx.lineTo(260, 260)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(260, 160)
+  ctx.lineTo(160, 260)
+  ctx.stroke()
+}
+function printCenterRightX() {
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(300, 160)
+  ctx.lineTo(400, 260)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(400, 160)
+  ctx.lineTo(300, 260)
+  ctx.stroke()
+}
+// Bottom
+function printBottomLeftX() {
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(20, 300)
+  ctx.lineTo(120, 400)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(120, 300)
+  ctx.lineTo(20, 400)
+  ctx.stroke()
+}
+function printBottomCenterX() {
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(160, 300)
+  ctx.lineTo(260, 400)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(260, 300)
+  ctx.lineTo(160, 400)
+  ctx.stroke()
+}
+function printBottomRightX() {
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(300, 300)
+  ctx.lineTo(400, 400)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.strokeStyle = 'black'
+  ctx.moveTo(400, 300)
+  ctx.lineTo(300, 400)
+  ctx.stroke()
+}
 
-// // X
-// // TOP
-// // TopLeft_X
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(0, 0)
-// ctx.lineTo(165, 165)
-// ctx.stroke()
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(165, 0)
-// ctx.lineTo(0, 165)
-// ctx.stroke()
-// // TopCenter_X
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(165, 0)
-// ctx.lineTo(330, 165)
-// ctx.stroke()
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(330, 0)
-// ctx.lineTo(165, 165)
-// ctx.stroke()
-// // TopRight_X
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(330, 0)
-// ctx.lineTo(500, 165)
-// ctx.stroke()
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(500, 0)
-// ctx.lineTo(330, 165)
-// ctx.stroke()
-
-// // CENTER
-// // CenterLeft_X
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(0, 165)
-// ctx.lineTo(165, 330)
-// ctx.stroke()
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(165, 165)
-// ctx.lineTo(0, 330)
-// ctx.stroke()
-// // CenterCenter_X
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(165, 165)
-// ctx.lineTo(330, 330)
-// ctx.stroke()
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(330, 165)
-// ctx.lineTo(165, 330)
-// ctx.stroke()
-// // CenterRight_X
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(330, 165)
-// ctx.lineTo(500, 330)
-// ctx.stroke()
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(500, 165)
-// ctx.lineTo(330, 330)
-// ctx.stroke()
-
-// // BOTTOM
-// // BottomLeft_X
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(0, 330)
-// ctx.lineTo(165, 500)
-// ctx.stroke()
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(165, 330)
-// ctx.lineTo(0, 500)
-// ctx.stroke()
-// // BottomCenter_X
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(165, 330)
-// ctx.lineTo(330, 500)
-// ctx.stroke()
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(330, 330)
-// ctx.lineTo(165, 500)
-// ctx.stroke()
-// // BottomRight_X
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(330, 330)
-// ctx.lineTo(500, 500)
-// ctx.stroke()
-// ctx.beginPath()
-// ctx.strokeStyle = 'black'
-// ctx.moveTo(500, 330)
-// ctx.lineTo(330, 550)
-// ctx.stroke()
-
-// O
-// TOP
-// TopLeft_O
-ctx.beginPath()
-ctx.arc(80, 80, 79, 0, 360)
-ctx.stroke()
-// TopCenter_O
-ctx.beginPath()
-ctx.arc(250, 80, 79, 0, 360)
-ctx.stroke()
-// TopRight_O
-ctx.beginPath()
-ctx.arc(420, 80, 79, 0, 360)
-ctx.stroke()
-
+// O FUNCTIONS
+// Top
+function printTopLeftO() {
+  ctx.beginPath()
+  ctx.arc(70, 70, 55, 0, 360)
+  ctx.stroke()
+}
+function printTopCenterO() {
+  ctx.beginPath()
+  ctx.arc(210, 70, 55, 0, 360)
+  ctx.stroke()
+}
+function printTopRightO() {
+  ctx.beginPath()
+  ctx.arc(350, 70, 55, 0, 360)
+  ctx.stroke()
+}
+// Center
+function printCenterLeftO() {
+  ctx.beginPath()
+  ctx.arc(70, 210, 55, 0, 360)
+  ctx.stroke()
+}
+function printCenterCenterO() {
+  ctx.beginPath()
+  ctx.arc(210, 210, 55, 0, 360)
+  ctx.stroke()
+}
+function printCenterRightO() {
+  ctx.beginPath()
+  ctx.arc(350, 210, 55, 0, 360)
+  ctx.stroke()
+}
+// Bottom
+function printBottomLeftO() {
+  ctx.beginPath()
+  ctx.arc(70, 350, 55, 0, 360)
+  ctx.stroke()
+}
+function printBottomCenterO() {
+  ctx.beginPath()
+  ctx.arc(210, 350, 55, 0, 360)
+  ctx.stroke()
+}
+function printBottomRightO() {
+  ctx.beginPath()
+  ctx.arc(350, 350, 55, 0, 360)
+  ctx.stroke()
+}
