@@ -275,9 +275,11 @@ buttonReset.addEventListener('click', () => {
     ['B', 'F', 'F']
   ]
   currentPlayer = 0
+  winner = 'first'
   gameStopper = false
   player1 = 0
   player2 = 0
+  motion.textContent = `Ходит первый игрок - ${playerFirstName}`
   firstPlayerWins.textContent = `Первый игрок: ${player1}`
   secondPlayerWins.textContent = `Второй игрок: ${player2}`
 })
