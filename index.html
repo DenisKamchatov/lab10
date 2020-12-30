@@ -14,15 +14,26 @@
         <h2>Количество побед</h2>
         <div class="row justify-content-center">
             <div class="col-2">
-                <p class="lead">Первый игрок: </p>
+                <p class="lead" id="firstPlayer">Первый игрок: 0</p>
             </div>
             <div class="col-2">
-                <p class="lead">Второй игрок: </p>
+                <p class="lead" id="secondPlayer">Второй игрок: 0</p>
             </div>
         </div>
         <h2>Ход</h2>
-        <p class="lead">Ходит первый игрок - Х</p>
-        <canvas id="canvas" width="500px" height="500px">Error</canvas>
+        <p class="lead" id="motion">Ходит первый игрок - Х</p>
+
+        <canvas id="canvas" width="420px" height="420px"></canvas>
+
+        <div class="row justify-content-center" style="margin-top: 30px;">
+            <div class="col-2">
+                <button type="button" class="btn btn-success" id="buttonLeft" style="width: 160px">Новый раунд</button>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-danger" id="buttonRight" style="width: 160px">Сброс</button>
+            </div>
+        </div>
+
     </div>
 
 
