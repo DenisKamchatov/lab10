@@ -8,10 +8,11 @@ let secondPlayerWins = document.querySelector('#secondPlayer')
 let motion = document.querySelector('#motion')
 
 let board = [
-    ['S', 'S', 'F'],
-    ['S', 'B', 'S'],
-    ['B', 'F', 'F']
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', '']
 ]
+let count = 0
 
 function canvasCascade() {
   // VerticalLine
@@ -47,6 +48,7 @@ function canvasClick(click) {
     clientX = click.offsetX;
     clientY = click.offsetY;
     playersMoveText()
+  
     if (gameStopper == false) {
       if (clientX < 139 && clientY < 139 && board[0][0] != 'X' && board[0][0] != 'O') {
         if (currentPlayer % 2 == 0) {
@@ -136,6 +138,8 @@ function canvasClick(click) {
       }
       ifWin()
     }
+
+    draw()
 }
 // If Win
 function ifWin() {
@@ -309,6 +313,21 @@ function ifWin() {
     }
   }
 }
+// Draw
+function draw() {
+  for (let i = 0; i < 3; ++i) {
+    for (let j = 0; j < 3; ++j) {
+      if (board[i][j] == '') {
+        count += 1
+      } 
+    }
+  }
+  if (count == 0) {
+    alert('Ничья! Нажмите кнопку "Новый раунд", чтобы продолжить играть, или "Сброс", чтобы начать новую игру')
+  }
+  console.log(count)
+  count = 0
+}
 
 // Player's Move Text
 function playersMoveText() {
@@ -330,7 +349,7 @@ function playersMoveText() {
 // FirstPlayerWins
 function firstPlayerWinsFunc() {
   winner = 'first'
-  console.log(winner)
+  count = 0
   firstPlayerWins.textContent = `Первый игрок: ${player1}`
   motion.textContent = `Ходит первый игрок - ${playerFirstName}`
   alert('Первый игрок выиграл, поздравляю! Нажмите кнопку "Новый раунд", чтобы начать новый раунд.')
@@ -338,7 +357,7 @@ function firstPlayerWinsFunc() {
 // SecondPlayerWins
 function secondPlayerWinsFunc() {
   winner = 'second'
-  console.log(winner)
+  count = 0
   secondPlayerWins.textContent = `Второй игрок: ${player2}`
   motion.textContent = `Ходит второй игрок - ${playerSecondName}`
   alert('Второй игрок выиграл, поздравляю! Нажмите кнопку "Новый раунд", чтобы начать новый раунд.')
@@ -349,11 +368,12 @@ buttonNewRound.addEventListener('click', () => {
   ctx.clearRect(0, 0, 420, 420)
   canvasCascade()
   board = [
-    ['S', 'S', 'F'],
-    ['S', 'B', 'S'],
-    ['B', 'F', 'F']
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', '']
   ]
   currentPlayer = 0
+  count = 0
   gameStopper = false
 }) 
 // Button Reset
@@ -361,11 +381,12 @@ buttonReset.addEventListener('click', () => {
   ctx.clearRect(0, 0, 420, 420)
   canvasCascade()
   board = [
-    ['S', 'S', 'F'],
-    ['S', 'B', 'S'],
-    ['B', 'F', 'F']
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', '']
   ]
   currentPlayer = 0
+  count = 0
   winner = 'first'
   gameStopper = false
   player1 = 0
