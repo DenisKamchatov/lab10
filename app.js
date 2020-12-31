@@ -46,7 +46,7 @@ motion.textContent = `Ходит первый игрок - ${playerFirstName}`
 function canvasClick(click) {
     clientX = click.offsetX;
     clientY = click.offsetY;
-
+    playersMoveText()
     if (gameStopper == false) {
       if (clientX < 139 && clientY < 139 && board[0][0] != 'X' && board[0][0] != 'O') {
         if (currentPlayer % 2 == 0) {
@@ -59,9 +59,11 @@ function canvasClick(click) {
         currentPlayer += 1
       }else if (clientX < 279 && clientY < 139 && clientX > 140 && clientY > 0 && board[0][1] != 'X' && board[0][1] != 'O') {
         if (currentPlayer % 2 == 0) {
+          playersMoveText()
           printTopCenterX()
           board[0][1] = 'X'
         } else {
+          playersMoveText()
           printTopCenterO()
           board[0][1] = 'O'
         }
@@ -161,79 +163,166 @@ function ifWin() {
   // Horizontal First
   }else if (board[0][0] == board[0][1] && board[0][2] == board[0][1]) {
     if (board[0][0] == 'X') {
+      if (winner == 'first') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      }
       gameStopper = true
-      player1 += 1
-      firstPlayerWinsFunc()
     } else if (board[0][0] == 'O') {
+      if (winner == 'first') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      }
       gameStopper = true
-      player2 += 1
-      secondPlayerWinsFunc()
     }
   // Horizontal Second
   }else if (board[1][0] == board[1][1] && board[1][2] == board[1][1]) {
     if (board[1][0] == 'X') {
+      if (winner == 'first') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      }
       gameStopper = true
-      player1 += 1
-      firstPlayerWinsFunc()
     } else if (board[1][0] == 'O') {
+      if (winner == 'first') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      }
       gameStopper = true
-      player2 += 1
-      secondPlayerWinsFunc()
     }
   // Horizontal Third
   }else if (board[2][0] == board[2][1] && board[2][2] == board[2][1]) {
     if (board[2][0] == 'X') {
+      if (winner == 'first') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      }
       gameStopper = true
-      player1 += 1
-      firstPlayerWinsFunc()
     } else if (board[2][0] == 'O') {
+      if (winner == 'first') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      }
       gameStopper = true
-      player2 += 1
-      secondPlayerWinsFunc()
     }
   // Diagonal Second
   }else if (board[0][2] == board[1][1] && board[2][0] == board[1][1]) {
     if (board[0][2] == 'X') {
+      if (winner == 'first') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      }
       gameStopper = true
-      player1 += 1
-      firstPlayerWinsFunc()
     } else if (board[0][2] == 'O') {
+      if (winner == 'first') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      }
       gameStopper = true
-      player2 += 1
-      secondPlayerWinsFunc()
     }
   // Vertical First
   }else if (board[0][0] == board[1][0] && board[2][0] == board[1][0]) {
     if (board[0][0] == 'X') {
+      if (winner == 'first') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      }
       gameStopper = true
-      player1 += 1
-      firstPlayerWinsFunc()
     } else if (board[0][0] == 'O') {
+      if (winner == 'first') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      }
       gameStopper = true
-      player2 += 1
-      secondPlayerWinsFunc()
     }
   // Vertical Second
   }else if (board[0][1] == board[1][1] && board[2][1] == board[1][1]) {
     if (board[0][1] == 'X') {
+      if (winner == 'first') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      }
       gameStopper = true
-      player1 += 1
-      firstPlayerWinsFunc()
     } else if (board[0][1] == 'O') {
+      if (winner == 'first') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      }
       gameStopper = true
-      player2 += 1
-      secondPlayerWinsFunc()
     }
   // Vertical Third
   }else if (board[0][2] == board[1][2] && board[2][2] == board[1][2]) {
     if (board[0][2] == 'X') {
+      if (winner == 'first') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      }
       gameStopper = true
-      player1 += 1
-      firstPlayerWinsFunc()
     } else if (board[0][2] == 'O') {
+      if (winner == 'first') {
+        player2 += 1
+        secondPlayerWinsFunc()
+      } else if (winner == 'second') {
+        player1 += 1
+        firstPlayerWinsFunc()
+      }
       gameStopper = true
-      player2 += 1
-      secondPlayerWinsFunc()
+    }
+  }
+}
+
+// Player's Move Text
+function playersMoveText() {
+  if (winner == 'first') {
+    if (currentPlayer % 2 == 1) {
+      motion.textContent = `Ходит первый игрок - ${playerFirstName}`
+    } else if (currentPlayer % 2 == 0) {
+      motion.textContent = `Ходит второй игрок - ${playerSecondName}`
+    }
+  } else if (winner == 'second') {
+    if (currentPlayer % 2 == 0) {
+      motion.textContent = `Ходит первый игрок - ${playerFirstName}`
+    } else if (currentPlayer % 2 == 1) {
+      motion.textContent = `Ходит второй игрок - ${playerSecondName}`
     }
   }
 }
@@ -241,6 +330,7 @@ function ifWin() {
 // FirstPlayerWins
 function firstPlayerWinsFunc() {
   winner = 'first'
+  console.log(winner)
   firstPlayerWins.textContent = `Первый игрок: ${player1}`
   motion.textContent = `Ходит первый игрок - ${playerFirstName}`
   alert('Первый игрок выиграл, поздравляю! Нажмите кнопку "Новый раунд", чтобы начать новый раунд.')
@@ -248,6 +338,7 @@ function firstPlayerWinsFunc() {
 // SecondPlayerWins
 function secondPlayerWinsFunc() {
   winner = 'second'
+  console.log(winner)
   secondPlayerWins.textContent = `Второй игрок: ${player2}`
   motion.textContent = `Ходит второй игрок - ${playerSecondName}`
   alert('Второй игрок выиграл, поздравляю! Нажмите кнопку "Новый раунд", чтобы начать новый раунд.')
