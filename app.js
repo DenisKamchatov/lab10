@@ -6,11 +6,14 @@ const buttonReset = document.querySelector('#buttonRight')
 let firstPlayerWins = document.querySelector('#firstPlayer')
 let secondPlayerWins = document.querySelector('#secondPlayer')
 let motion = document.querySelector('#motion')
+// Модальное окно
+let modal = document.querySelector('#myModal')
+let textModal = document.querySelector('.textModal')
 
 let board = [
     ['', '', ''],
     ['', '', ''],
-    ['', '', '']
+    ['', '', ''],
 ]
 let count = 0
 
@@ -61,11 +64,9 @@ function canvasClick(click) {
         currentPlayer += 1
       }else if (clientX < 279 && clientY < 139 && clientX > 140 && clientY > 0 && board[0][1] != 'X' && board[0][1] != 'O') {
         if (currentPlayer % 2 == 0) {
-          playersMoveText()
           printTopCenterX()
           board[0][1] = 'X'
         } else {
-          playersMoveText()
           printTopCenterO()
           board[0][1] = 'O'
         }
@@ -141,6 +142,7 @@ function canvasClick(click) {
 
     draw()
 }
+
 // If Win
 function ifWin() {
   // Diagonal First
@@ -325,7 +327,6 @@ function draw() {
   if (count == 0) {
     alert('Ничья! Нажмите кнопку "Новый раунд", чтобы продолжить играть, или "Сброс", чтобы начать новую игру')
   }
-  console.log(count)
   count = 0
 }
 
@@ -352,7 +353,13 @@ function firstPlayerWinsFunc() {
   count = 0
   firstPlayerWins.textContent = `Первый игрок: ${player1}`
   motion.textContent = `Ходит первый игрок - ${playerFirstName}`
-  alert('Первый игрок выиграл, поздравляю! Нажмите кнопку "Новый раунд", чтобы начать новый раунд.')
+  textModal.textContent = 'Первый игрок выиграл, поздравляю! Нажмите кнопку "Новый раунд", чтобы начать новый раунд.'
+  modal.style.display = "block"
+  window.onclick = function () {
+    if (event.target == modal) {
+        modal.style.display = "none"
+    }
+  }
 }
 // SecondPlayerWins
 function secondPlayerWinsFunc() {
@@ -360,7 +367,13 @@ function secondPlayerWinsFunc() {
   count = 0
   secondPlayerWins.textContent = `Второй игрок: ${player2}`
   motion.textContent = `Ходит второй игрок - ${playerSecondName}`
-  alert('Второй игрок выиграл, поздравляю! Нажмите кнопку "Новый раунд", чтобы начать новый раунд.')
+  textModal.textContent = 'Второй игрок выиграл, поздравляю! Нажмите кнопку "Новый раунд", чтобы начать новый раунд.'
+  modal.style.display = "block"
+  window.onclick = function () {
+    if (event.target == modal) {
+        modal.style.display = "none"
+    }
+  }
 }
 
 // Button New Round
