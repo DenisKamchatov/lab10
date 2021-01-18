@@ -13,10 +13,10 @@
         <p class="lead">Простая игра в крестики-нолики. Первым ходит победитель</p>
         <h2>Количество побед</h2>
         <div class="row justify-content-center">
-            <div class="col-2">
+            <div class="col-3">
                 <p class="lead" id="firstPlayer">Первый игрок: 0</p>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <p class="lead" id="secondPlayer">Второй игрок: 0</p>
             </div>
         </div>
@@ -26,14 +26,19 @@
         <canvas id="canvas" width="420px" height="420px"></canvas>
 
         <div class="row justify-content-center" style="margin-top: 30px;">
-            <div class="col-2">
-                <button type="button" class="btn btn-success btn-block text-nowrap" id="buttonLeft">Новый раунд</button>
+            <div class="col-3">
+                <button type="button" class="btn btn-success btn-block" id="buttonLeft">Новый раунд</button>
             </div>
-            <div class="col-2">
-                <button type="button" class="btn btn-danger btn-block text-nowrap" id="buttonRight">Сброс</button>
+            <div class="col-3">
+                <button type="button" class="btn btn-danger btn-block" id="buttonRight">Сброс</button>
             </div>
         </div>
-
+        <!-- Модальное окно -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <p class="textModal"></p>
+            </div>
+        </div>
     </div>
 
 
